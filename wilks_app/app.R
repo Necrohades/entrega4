@@ -23,18 +23,18 @@ ui <- fluidPage(
             sliderInput("p",
                         "p:",
                         min = 1,
-                        max = 50,
-                        value = 30),
+                        max = 10,
+                        value = 4),
             sliderInput("a",
                         "a:",
                         min = 1,
-                        max = 50,
-                        value = 30),
+                        max = 20,
+                        value = 10),
             sliderInput("b",
                         "b:",
                         min = 1,
-                        max = 50,
-                        value = 30),
+                        max = 20,
+                        value = 10),
             sliderInput("N",
                         "Tamaño de la muestra:",
                         min = 1,
@@ -54,12 +54,14 @@ server <- function(input, output) {
 
     output$distPlot <- renderPlot({
         # generate bins based on input$bins from ui.R
-        x <- lambda.wilks(input$N, input$p, input$a, input$b)
-        data <- data.frame(x)
+        betas <- lambda.wilks.betas(input$N, input$p, input$a, input$b)
+        wishart <- lambda.wilks.wishart(input$N, input$p, input$a, input$b)
+        data <- data.frame(values=c(betas,wishart),type=rep(c("betas","wishart"),each=input$N))
         
-        ggplot(data, aes(x=x)) +
-          # geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) +
-          geom_histogram(fill="#005DB5")
+        ggplot(data,aes(x=values)) + 
+          geom_histogram(data=subset(data,type=="betas"),fill = "blue", alpha = 0.8) +
+          geom_histogram(data=subset(data,type=="wishart"),fill = "yellow", alpha = 0.8)+
+          labs(x="Valores", y="Frecuencia absoluta")
     })
 }
 
