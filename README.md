@@ -12,3 +12,7 @@ $$L = \prod_{i=1}^b u_i, \text{ donde } u_i \sim \beta \left( \frac{a + i - p}{2
 
 Genérese una muestra de tamaño $N$ de una ley $\Lambda$ de Wilks. Represéntese los resultados mediante
 un histograma.
+
+## Shiny app
+
+La aplicación Shiny se puede enconctrar en [wilks_app/app.R](https://github.com/Necrohades/entrega4/blob/main/wilks_app/app.R) y se puede ejecutar desde RStudio. Se necesita instalar la librería ``ggplot2``.
